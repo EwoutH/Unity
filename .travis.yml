@@ -1,17 +1,10 @@
 language: c
+dist: bionic
+osx_image: xcode11.2
+addons:
+  apt:
+    packages: gcc-multilib
 
-matrix:
- include:
-    - os: osx
-      compiler: clang
-      osx_image: xcode11.2
-    - os: linux
-      dist: bionic
-      compiler: gcc
-
-before_install:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then rvm install 2.3 && rvm use 2.3 && ruby -v; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install --assume-yes --quiet gcc-multilib; fi
 install:
   - gem install rspec
   - gem install rubocop -v 0.57.2
@@ -27,3 +20,12 @@ script:
   - cd ../../../examples/example_1 && make -s ci
   - cd ../example_2 && make -s ci
   - cd ../example_3 && rake
+
+jobs:
+ include:
+    - name: Linux GCC x64
+    - name: Linux GCC Arm64
+      arch: arm64
+    - name: macOS Clang x64
+      os: osx
+      before_install: rvm install 2.6 && rvm use 2.6 && ruby -v
