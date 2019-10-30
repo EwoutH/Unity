@@ -3,7 +3,7 @@ dist: bionic
 osx_image: xcode11.2
 addons:
   apt:
-    packages: gcc-multilib
+    packages: gcc-multilib-i686-linux-gnu gcc-multilib-s390x-linux-gnu gcc-multilib-x86-64-linux-gnu gcc-multilib-x86-64-linux-gnux32
 
 install:
   - gem install rspec
