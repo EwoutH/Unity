@@ -1,9 +1,6 @@
 language: c
 dist: bionic
 osx_image: xcode11.2
-addons:
-  apt:
-    packages: gcc-multilib-i686-linux-gnu gcc-multilib-s390x-linux-gnu gcc-multilib-x86-64-linux-gnu gcc-multilib-x86-64-linux-gnux32
 
 install:
   - gem install rspec
@@ -24,8 +21,10 @@ script:
 jobs:
  include:
     - name: Linux GCC x64
+      before_install: sudo apt-get install --assume-yes --quiet gcc-multilib
     - name: Linux GCC Arm64
       arch: arm64
+      before_install: sudo apt-get install --assume-yes --quiet gcc-multilib-i686-linux-gnu gcc-multilib-x86-64-linux-gnu
     - name: macOS Clang x64
       os: osx
       before_install: rvm install 2.6 && rvm use 2.6 && ruby -v
